@@ -1,33 +1,34 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resize KB - Free Photo, Signature & Document Resizer</title>
-    <meta name="description" content="Resize photo, signature, add name/date for Sarkari online exam forms in exact KB, pixels, cm, mm with 100% privacy.">
+    <title>Resize KB - Free Online Photo, Signature & Document Resizer</title>
+    <meta name="description" content="All-in-one free photo resizer, image compressor to exact KB, passport photo maker, signature cleaner, DPI converter, and format converter.">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg: #f8fafc;
+            --primary: #3b49df;
+            --primary-hover: #2f3ab2;
+            --btn-border: #7c7cd0;
+            --btn-text: #3c3b88;
+            --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-main: #0f172a;
+            --text-dark: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --success: #16a34a;
-            --radius: 12px;
+            --radius: 8px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -35,343 +36,348 @@
 
         /* Header */
         header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
+            background: #2b3990;
+            color: white;
+            padding: 14px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
         }
 
-        .brand {
+        .brand-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 1.35rem;
-            color: var(--primary);
+            gap: 12px;
             text-decoration: none;
+            color: white;
         }
 
-        .badge-secure {
-            background: #ecfdf5;
-            color: var(--success);
-            border: 1px solid #bbf7d0;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .brand-logo {
+            background: white;
+            color: #2b3990;
+            font-weight: 900;
+            font-size: 1.15rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 2px solid white;
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tag {
+            background: #16a34a;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
         }
 
         /* Container */
         .container {
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 24px 16px 60px;
+            padding: 24px 16px 80px;
             width: 100%;
-            flex: 1;
         }
 
         /* Hero */
         .hero {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .hero h1 {
-            font-size: 2.1rem;
+            font-size: 1.9rem;
             font-weight: 800;
-            margin-bottom: 8px;
-            color: #0f172a;
+            color: #111827;
+            margin-bottom: 6px;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 0.98rem;
         }
 
-        /* Quick Exam Presets */
-        .presets-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
+        /* Search Bar */
+        .search-box-wrap {
+            max-width: 580px;
+            margin: 0 auto 32px;
+            position: relative;
         }
 
-        .presets-label {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: #475569;
-        }
-
-        .preset-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: #334155;
+        .search-input {
+            width: 100%;
+            padding: 12px 18px 12px 42px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            outline: none;
+            background: white;
             transition: all 0.2s;
         }
 
-        .preset-btn:hover {
-            background: #cbd5e1;
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.15);
         }
 
-        /* Tool Tabs Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Sections & Tool Button Grid */
+        .category-section {
             margin-bottom: 28px;
         }
 
-        .tool-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .tool-card:hover {
-            border-color: #93c5fd;
-            transform: translateY(-2px);
-        }
-
-        .tool-card.active {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
-
-        .tool-icon {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        .tool-title {
+        .category-title {
+            font-size: 1.15rem;
             font-weight: 700;
-            font-size: 0.95rem;
+            color: #1e293b;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 520px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Pi7-style outlined button */
+        .tool-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--btn-border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            text-align: center;
+            color: var(--btn-text);
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.18s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-btn:hover {
+            background: #eff2fe;
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        /* Universal Tool Modal Workspace */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            border-radius: 12px;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            padding: 24px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
             color: #1e293b;
         }
 
-        .tool-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 4px;
+        .modal-close {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
         }
 
-        /* Workspace Box */
-        .workspace {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            padding: 24px;
+        .modal-close:hover {
+            background: #e2e8f0;
         }
 
         /* Dropzone */
         .dropzone {
             border: 2px dashed #94a3b8;
             border-radius: var(--radius);
-            padding: 40px 20px;
+            padding: 32px 16px;
             text-align: center;
             background: #f8fafc;
             cursor: pointer;
             transition: 0.2s;
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
 
-        .dropzone:hover, .dropzone.dragover {
+        .dropzone:hover {
             border-color: var(--primary);
             background: #eff6ff;
         }
 
         .dropzone-icon {
-            font-size: 2.8rem;
-            margin-bottom: 8px;
+            font-size: 2.4rem;
+            margin-bottom: 6px;
         }
 
         .dropzone-text {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #1e293b;
         }
 
         .dropzone-sub {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
-        /* Settings Area */
-        .settings-panel {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .settings-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .config-row {
+        /* Controls */
+        .tool-controls {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
-        .form-group {
+        .control-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
 
-        .form-group label {
-            font-size: 0.88rem;
+        .control-group label {
+            font-size: 0.84rem;
             font-weight: 700;
             color: #334155;
         }
 
-        .form-group input, .form-group select {
-            padding: 10px 14px;
+        .control-group input, .control-group select {
+            padding: 8px 12px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             outline: none;
         }
 
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--primary);
-        }
-
-        /* Preview & Download Area */
-        .preview-section {
+        /* Preview box */
+        .preview-box {
             display: none;
-            margin-top: 24px;
             border-top: 1px solid var(--border);
-            padding-top: 24px;
+            padding-top: 18px;
+            text-align: center;
         }
 
-        .preview-section.active {
+        .preview-box.active {
             display: block;
         }
 
-        .preview-wrapper {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .canvas-box {
-            max-width: 320px;
-            max-height: 320px;
+        .canvas-holder {
+            max-width: 260px;
+            max-height: 260px;
+            margin: 0 auto 14px;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             overflow: hidden;
-            background: #f1f5f9;
+            background: #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .canvas-box canvas {
+        .canvas-holder canvas {
             max-width: 100%;
             max-height: 100%;
             display: block;
         }
 
-        .stats-card {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            min-width: 240px;
-        }
-
-        .stats-item {
-            font-size: 0.88rem;
-            margin-bottom: 8px;
+        .info-pill-row {
             display: flex;
-            justify-content: space-between;
+            gap: 12px;
+            justify-content: center;
+            font-size: 0.86rem;
+            margin-bottom: 14px;
+            font-weight: 600;
         }
 
-        .stats-item span:first-child {
-            color: var(--text-muted);
-        }
-
-        .stats-item span:last-child {
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .btn-action {
-            background: var(--primary);
+        .btn-download {
+            background: #16a34a;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 0.98rem;
             font-weight: 700;
             cursor: pointer;
-            width: 100%;
-            margin-top: 14px;
             transition: 0.2s;
-        }
-
-        .btn-action:hover {
-            background: var(--primary-hover);
-        }
-
-        /* SEO Guidance */
-        .info-section {
-            margin-top: 40px;
-            background: white;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 24px;
-        }
-
-        .info-section h3 {
-            font-size: 1.15rem;
-            margin-bottom: 12px;
-            color: #1e293b;
-        }
-
-        .info-table {
             width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            margin-top: 12px;
         }
 
-        .info-table th, .info-table td {
-            border: 1px solid var(--border);
-            padding: 10px;
-            text-align: left;
-        }
-
-        .info-table th {
-            background: #f8fafc;
+        .btn-download:hover {
+            background: #15803d;
         }
     </style>
 </head>
@@ -379,470 +385,403 @@
 
     <!-- Header -->
     <header>
-        <a href="#" class="brand">
-            <span>⚡ Resize KB</span>
+        <a href="#" class="brand-container">
+            <span class="brand-logo">KB</span>
+            <span class="brand-title">Resize KB</span>
         </a>
-        <div class="badge-secure">
-            🛡️ 100% Client-Side Safe (No Upload to Server)
-        </div>
+        <span class="nav-tag">🔒 100% Client-Side Safe</span>
     </header>
 
     <div class="container">
-        <!-- Hero Title -->
+        <!-- Hero Header -->
         <div class="hero">
-            <h1>Sarkari & Online Form Photo Resizer</h1>
-            <p>One-stop solution for photo, signature, exact KB compression, name/date, and printable sheets.</p>
+            <h1>Compress, Resize & Edit Pictures</h1>
+            <p>Direct browser-side tools for online exam forms, signatures, and document optimization.</p>
         </div>
 
-        <!-- Exam Presets Bar -->
-        <div class="presets-bar">
-            <span class="presets-label">⚡ 1-Click Form Presets:</span>
-            <button class="preset-btn" onclick="applyPreset('ssc_photo')">SSC Photo (20-50 KB)</button>
-            <button class="preset-btn" onclick="applyPreset('ssc_sign')">SSC Sign (10-20 KB)</button>
-            <button class="preset-btn" onclick="applyPreset('upsc_photo')">UPSC Photo (20-300 KB)</button>
-            <button class="preset-btn" onclick="applyPreset('ibps')">IBPS / Bank (20-50 KB)</button>
-            <button class="preset-btn" onclick="applyPreset('passport')">Passport Standard (3.5x4.5cm)</button>
+        <!-- Search Bar -->
+        <div class="search-box-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="toolSearch" class="search-input" placeholder="Search Tool (e.g. 50KB, Passport, Signature, DPI)..." oninput="filterTools()">
         </div>
 
-        <!-- Multi-Tool Tabs -->
-        <div class="tools-grid">
-            <div class="tool-card active" onclick="switchTool('compress')">
-                <div class="tool-icon">📉</div>
-                <div class="tool-title">Exact KB Size</div>
-                <div class="tool-desc">Target 20KB, 50KB, 100KB</div>
-            </div>
-            <div class="tool-card" onclick="switchTool('passport')">
-                <div class="tool-icon">👤</div>
-                <div class="tool-title">Passport Photo</div>
-                <div class="tool-desc">3.5x4.5 cm with border</div>
-            </div>
-            <div class="tool-card" onclick="switchTool('namedate')">
-                <div class="tool-icon">📝</div>
-                <div class="tool-title">Name & Date (DOP)</div>
-                <div class="tool-desc">Add bottom banner stamp</div>
-            </div>
-            <div class="tool-card" onclick="switchTool('signature')">
-                <div class="tool-icon">✍️</div>
-                <div class="tool-title">Signature Clean</div>
-                <div class="tool-desc">High contrast pure white bg</div>
-            </div>
-            <div class="tool-card" onclick="switchTool('dimension')">
-                <div class="tool-icon">📐</div>
-                <div class="tool-title">DPI & Pixels</div>
-                <div class="tool-desc">200 / 300 DPI, cm, mm</div>
+        <!-- 1. Most Used Tools -->
+        <div class="category-section">
+            <div class="category-title">⭐ Most Used Tools</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('passport', 'Passport Photo Maker', 50, 413, 531)">Passport Photo Maker</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Reduce Image Size in KB', 50)">Reduce Image Size in KB</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize Image Pixel', 100, 600, 600)">Resize Image Pixel</button>
+                <button class="tool-btn" onclick="openTool('signature', 'Resize Signature', 20, 280, 120)">Resize Signature</button>
+                <button class="tool-btn" onclick="openTool('namedate', 'Add Name & Date on Photo', 50, 413, 531)">Add Name & DOB on Photo</button>
+                <button class="tool-btn" onclick="openTool('passport', 'Resize Image (3.5cm x 4.5cm)', 50, 413, 531)">Resize Image (3.5cm x 4.5cm)</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize Image in Centimeter', 50, 413, 531)">Resize Image in Centimeter</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Increase Image Size In KB', 200)">Increase Image Size In KB</button>
             </div>
         </div>
 
-        <!-- Main Workspace -->
-        <div class="workspace">
+        <!-- 2. Exact Target Sizes -->
+        <div class="category-section">
+            <div class="category-title">🎯 Exact Target Sizes</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 5KB', 5)">Compress to 5KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 10KB', 10)">JPEG to 10KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 15KB', 15)">Compress to 15KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 20KB', 20)">Compress to 20KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress 20KB-50KB', 45)">Compress 20KB-50KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 25KB', 25)">JPEG to 25KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 30KB', 30)">JPEG to 30KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 40KB', 40)">JPEG to 40KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 50KB', 50)">Compress to 50KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 60KB', 60)">Compress to 60KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 70KB', 70)">Compress to 70KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 80KB', 80)">Compress to 80KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 90KB', 90)">Compress to 90KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Resize to 50KB', 50)">Resize to 50KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 100KB', 100)">Compress to 100KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 150KB', 150)">JPEG to 150KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 200KB', 200)">Compress to 200KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Resize to 200KB', 200)">Resize to 200KB</button>
+            </div>
+        </div>
+
+        <!-- 3. Official Exam & Government Sizes -->
+        <div class="category-section">
+            <div class="category-title">🏛️ Resize Other Official Sizes</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('passport', 'SSC Photo Resize (3.5x4.5cm, 20-50KB)', 45, 413, 531)">SSC Photo Resize</button>
+                <button class="tool-btn" onclick="openTool('signature', 'SSC Signature Resize (10-20KB)', 18, 280, 120)">SSC Signature Resize</button>
+                <button class="tool-btn" onclick="openTool('namedate', 'UPSC Photo with Name & Date', 100, 413, 531)">UPSC Photo</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'PAN Card Photo Resize', 50, 213, 213)">PAN Card</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'PSC Exam Photo', 50, 413, 531)">PSC Photo</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'A4 Size Document', 300, 1240, 1754)">A4 Size</button>
+            </div>
+        </div>
+
+        <!-- 4. Passport & ID Photo Sizes -->
+        <div class="category-section">
+            <div class="category-title">🛂 Passport & ID Photo Sizes</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('passport', 'White Background Passport', 50, 413, 531, 'white')">White Background Passport</button>
+                <button class="tool-btn" onclick="openTool('passport', 'Red Background Passport', 50, 413, 531, 'red')">Red Background Passport</button>
+                <button class="tool-btn" onclick="openTool('dimension', '3.5cm x 4.5cm Standard', 50, 413, 531)">3.5cm x 4.5cm</button>
+                <button class="tool-btn" onclick="openTool('dimension', '35mm x 45mm Standard', 50, 413, 531)">35mm x 45mm</button>
+                <button class="tool-btn" onclick="openTool('dimension', '2 x 2 Inch (US Visa)', 100, 600, 600)">2 x 2 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '3 x 4 Inch Photo', 150, 900, 1200)">3 x 4 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '4 x 6 Inch Print Size', 200, 1200, 1800)">4 x 6 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '600x600 Pixels Square', 100, 600, 600)">600x600 Pixels</button>
+            </div>
+        </div>
+
+        <!-- 5. DPI & Quality -->
+        <div class="category-section">
+            <div class="category-title">🎚️ DPI & Quality</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (200 DPI)', 100, 0, 0, 200)">Convert DPI (200 DPI)</button>
+                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (300 DPI)', 150, 0, 0, 300)">Convert DPI (300 DPI)</button>
+                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (600 DPI)', 250, 0, 0, 600)">Convert DPI (600 DPI)</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Increase Image Quality', 100)">Increase Image Quality</button>
+            </div>
+        </div>
+
+        <!-- 6. Basic Editing, Blur & Effects -->
+        <div class="category-section">
+            <div class="category-title">🎨 Basic Editing & Effects</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('signature', 'Clean Signature Background', 20)">Clean Signature Background</button>
+                <button class="tool-btn" onclick="openTool('namedate', 'Add Name & Date on Photo', 50)">Add Name & DOB on Photo</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Grayscale / Black & White', 50, 0, 0, 'bw')">Black & White</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Add Border to Image', 50, 0, 0, 'border')">Add Border To Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Rotate 90 Degrees', 50, 0, 0, 'rotate')">Rotate Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Flip Horizontal', 50, 0, 0, 'flip')">Flip Image</button>
+            </div>
+        </div>
+
+        <!-- 7. Format Conversions -->
+        <div class="category-section">
+            <div class="category-title">🔄 Format Conversions</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('convert', 'Convert Image to JPG', 80, 0, 0, 'jpg')">Image to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Convert Image to PNG', 100, 0, 0, 'png')">Convert to PNG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Convert WEBP to JPG', 80, 0, 0, 'jpg')">WEBP to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Convert PNG to JPG', 80, 0, 0, 'jpg')">PNG to JPG</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Tool Modal Workspace -->
+    <div class="modal-overlay" id="toolModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title" id="modalToolName">Tool Title</div>
+                <button class="modal-close" onclick="closeToolModal()">✕</button>
+            </div>
+
             <!-- Dropzone -->
-            <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" style="display: none;">
+            <div class="dropzone" id="modalDropzone" onclick="document.getElementById('toolFileInput').click()">
+                <input type="file" id="toolFileInput" accept="image/*" style="display: none;">
                 <div class="dropzone-icon">📁</div>
-                <div class="dropzone-text">Click or Drag & Drop Photo Here</div>
-                <div class="dropzone-sub">Supports JPG, PNG, WEBP (Instant processing in your browser)</div>
+                <div class="dropzone-text">Click or Drop Photo Here</div>
+                <div class="dropzone-sub">Files process entirely in your browser memory (100% private)</div>
             </div>
 
-            <!-- Dynamic Settings -->
-            <div id="settingsContainer">
-                <!-- 1. Compress Panel -->
-                <div class="settings-panel active" id="panel-compress">
-                    <div class="config-row">
-                        <div class="form-group">
-                            <label>Target File Size (KB)</label>
-                            <input type="number" id="targetKB" value="50" min="5" max="2000">
-                        </div>
-                        <div class="form-group">
-                            <label>Quick Preset Sizes</label>
-                            <select onchange="document.getElementById('targetKB').value = this.value; processImage();">
-                                <option value="20">20 KB (SSC Signature / Thumb)</option>
-                                <option value="50" selected>50 KB (Standard Sarkari Photo)</option>
-                                <option value="100">100 KB (UPSC / State PSC)</option>
-                                <option value="200">200 KB (Document / Certificate)</option>
-                            </select>
-                        </div>
-                    </div>
+            <!-- Dynamic Settings Bar -->
+            <div class="tool-controls" id="toolControls">
+                <div class="control-group" id="groupKB">
+                    <label>Target File Size (KB)</label>
+                    <input type="number" id="inputKB" value="50" min="5" max="2000" oninput="processCurrentImage()">
                 </div>
-
-                <!-- 2. Passport Panel -->
-                <div class="settings-panel" id="panel-passport">
-                    <div class="config-row">
-                        <div class="form-group">
-                            <label>Dimension (Width x Height)</label>
-                            <select id="passportDimensions">
-                                <option value="3.5,4.5">Standard Indian Passport (3.5 x 4.5 cm)</option>
-                                <option value="2,2">US Visa (2 x 2 inches)</option>
-                                <option value="3.5,3.5">Square Exam Photo (3.5 x 3.5 cm)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Border Style</label>
-                            <select id="passportBorder">
-                                <option value="none">No Border</option>
-                                <option value="thin" selected>Thin Clean Border (1px)</option>
-                                <option value="thick">Thick Border (2px)</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="control-group" id="groupW">
+                    <label>Width (px)</label>
+                    <input type="number" id="inputW" value="413" oninput="processCurrentImage()">
                 </div>
-
-                <!-- 3. Name & Date Panel -->
-                <div class="settings-panel" id="panel-namedate">
-                    <div class="config-row">
-                        <div class="form-group">
-                            <label>Candidate Full Name</label>
-                            <input type="text" id="candidateName" placeholder="e.g. RAHUL SHARMA">
-                        </div>
-                        <div class="form-group">
-                            <label>Date of Photo (DOP)</label>
-                            <input type="date" id="photoDate">
-                        </div>
-                    </div>
+                <div class="control-group" id="groupH">
+                    <label>Height (px)</label>
+                    <input type="number" id="inputH" value="531" oninput="processCurrentImage()">
                 </div>
-
-                <!-- 4. Signature Panel -->
-                <div class="settings-panel" id="panel-signature">
-                    <div class="config-row">
-                        <div class="form-group">
-                            <label>Background Clean Level</label>
-                            <select id="signContrast">
-                                <option value="1.2">Normal Clean</option>
-                                <option value="1.5" selected>High Contrast (Pure White Paper)</option>
-                                <option value="2.0">Extreme (Dark Ink / Pen)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Target KB for Signature</label>
-                            <input type="number" id="signTargetKB" value="20" min="5" max="100">
-                        </div>
-                    </div>
+                <div class="control-group" id="groupName" style="display: none;">
+                    <label>Candidate Name</label>
+                    <input type="text" id="inputCandidateName" placeholder="e.g. AMIT KUMAR" oninput="processCurrentImage()">
                 </div>
-
-                <!-- 5. Dimension Panel -->
-                <div class="settings-panel" id="panel-dimension">
-                    <div class="config-row">
-                        <div class="form-group">
-                            <label>Width (Pixels)</label>
-                            <input type="number" id="customWidth" placeholder="e.g. 350">
-                        </div>
-                        <div class="form-group">
-                            <label>Height (Pixels)</label>
-                            <input type="number" id="customHeight" placeholder="e.g. 450">
-                        </div>
-                        <div class="form-group">
-                            <label>DPI Resolution</label>
-                            <select id="dpiSelect">
-                                <option value="200" selected>200 DPI (Exam Standard)</option>
-                                <option value="300">300 DPI (High Quality Print)</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="control-group" id="groupDate" style="display: none;">
+                    <label>Date of Photo (DOP)</label>
+                    <input type="date" id="inputCandidateDate" onchange="processCurrentImage()">
                 </div>
             </div>
 
-            <!-- Preview & Action Box -->
-            <div class="preview-section" id="previewSection">
-                <div class="preview-wrapper">
-                    <div class="canvas-box">
-                        <canvas id="mainCanvas"></canvas>
-                    </div>
-                    <div class="stats-card">
-                        <div class="stats-item">
-                            <span>Original Size:</span>
-                            <span id="origSizeLabel">0 KB</span>
-                        </div>
-                        <div class="stats-item">
-                            <span>Resized Output:</span>
-                            <span id="outputSizeLabel" style="color: var(--primary);">0 KB</span>
-                        </div>
-                        <div class="stats-item">
-                            <span>Dimensions:</span>
-                            <span id="outputDimLabel">0 x 0 px</span>
-                        </div>
-                        <button class="btn-action" onclick="downloadResult()">📥 Download Image</button>
-                    </div>
+            <!-- Preview and Download Box -->
+            <div class="preview-box" id="previewArea">
+                <div class="canvas-holder">
+                    <canvas id="activeCanvas"></canvas>
                 </div>
+                <div class="info-pill-row">
+                    <div>Original: <span id="labelOrigSize">0 KB</span></div>
+                    <div>•</div>
+                    <div style="color: var(--primary);">Output: <span id="labelOutKB">0 KB</span></div>
+                    <div>•</div>
+                    <div>Dimensions: <span id="labelOutDim">0 x 0</span></div>
+                </div>
+                <button class="btn-download" onclick="downloadCurrentResult()">📥 Download Image</button>
             </div>
-        </div>
-
-        <!-- Sarkari Exam Requirements Reference -->
-        <div class="info-section">
-            <h3>📋 Standard Guidelines for Indian Online Exams</h3>
-            <table class="info-table">
-                <thead>
-                    <tr>
-                        <th>Exam / Portal</th>
-                        <th>Photo Specs</th>
-                        <th>Signature Specs</th>
-                        <th>Special Rules</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>SSC (CGL, CHSL, GD)</strong></td>
-                        <td>20 KB - 50 KB (3.5 x 4.5 cm)</td>
-                        <td>10 KB - 20 KB (4.0 x 2.0 cm)</td>
-                        <td>Live photo or clean white background, no cap/specs</td>
-                    </tr>
-                    <tr>
-                        <td><strong>UPSC Civil Services</strong></td>
-                        <td>20 KB - 300 KB</td>
-                        <td>20 KB - 300 KB</td>
-                        <td>Photo not older than 10 days with Name & Date</td>
-                    </tr>
-                    <tr>
-                        <td><strong>IBPS / Banking</strong></td>
-                        <td>20 KB - 50 KB (200 x 230 px)</td>
-                        <td>10 KB - 20 KB (140 x 60 px)</td>
-                        <td>Black ink pen on white paper only</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Railway (RRB)</strong></td>
-                        <td>20 KB - 50 KB</td>
-                        <td>10 KB - 20 KB</td>
-                        <td>Clear face, 80% face coverage</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 
     <script>
-        let rawImage = null;
-        let activeTool = 'compress';
+        let currentMode = 'compress';
+        let currentExtra = null;
+        let originalImage = null;
+        let currentBlob = null;
 
-        const fileInput = document.getElementById('fileInput');
-        const dropzone = document.getElementById('dropzone');
-        const canvas = document.getElementById('mainCanvas');
+        const modal = document.getElementById('toolModal');
+        const modalTitle = document.getElementById('modalToolName');
+        const fileInput = document.getElementById('toolFileInput');
+        const canvas = document.getElementById('activeCanvas');
         const ctx = canvas.getContext('2d');
-        const previewSection = document.getElementById('previewSection');
+        const previewArea = document.getElementById('previewArea');
 
-        // File Upload Handlers
+        // Search Filter
+        function filterTools() {
+            const query = document.getElementById('toolSearch').value.toLowerCase().trim();
+            const buttons = document.querySelectorAll('.tool-btn');
+            buttons.forEach(btn => {
+                const text = btn.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+
+        // Open Tool Modal with Preconfigured Values
+        function openTool(mode, title, defaultKB = 50, defaultW = 0, defaultH = 0, extra = null) {
+            currentMode = mode;
+            currentExtra = extra;
+            modalTitle.innerText = title;
+
+            // Setup input defaults
+            document.getElementById('inputKB').value = defaultKB;
+            document.getElementById('inputW').value = defaultW > 0 ? defaultW : (originalImage ? originalImage.naturalWidth : 413);
+            document.getElementById('inputH').value = defaultH > 0 ? defaultH : (originalImage ? originalImage.naturalHeight : 531);
+
+            // Toggle specific input groups
+            document.getElementById('groupName').style.display = (mode === 'namedate') ? 'flex' : 'none';
+            document.getElementById('groupDate').style.display = (mode === 'namedate') ? 'flex' : 'none';
+            document.getElementById('groupW').style.display = (mode === 'compress') ? 'none' : 'flex';
+            document.getElementById('groupH').style.display = (mode === 'compress') ? 'none' : 'flex';
+
+            modal.classList.add('active');
+
+            if (originalImage) {
+                processCurrentImage();
+            }
+        }
+
+        function closeToolModal() {
+            modal.classList.remove('active');
+        }
+
+        // File Handler
         fileInput.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
-                loadFile(e.target.files[0]);
-            }
-        });
-
-        dropzone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropzone.classList.add('dragover');
-        });
-
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('dragover');
-        });
-
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('dragover');
-            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                loadFile(e.dataTransfer.files[0]);
-            }
-        });
-
-        function loadFile(file) {
-            document.getElementById('origSizeLabel').innerText = (file.size / 1024).toFixed(1) + ' KB';
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    rawImage = img;
-                    previewSection.classList.add('active');
-                    processImage();
+                const file = e.target.files[0];
+                document.getElementById('labelOrigSize').innerText = (file.size / 1024).toFixed(1) + ' KB';
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        originalImage = img;
+                        if (currentMode === 'compress') {
+                            document.getElementById('inputW').value = img.naturalWidth;
+                            document.getElementById('inputH').value = img.naturalHeight;
+                        }
+                        previewArea.classList.add('active');
+                        processCurrentImage();
+                    };
+                    img.src = event.target.result;
                 };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Switch Tools
-        function switchTool(toolKey) {
-            activeTool = toolKey;
-            document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
-
-            event.currentTarget.classList.add('active');
-            document.getElementById(`panel-${toolKey}`).classList.add('active');
-
-            if (rawImage) processImage();
-        }
-
-        // Exam 1-Click Presets
-        function applyPreset(preset) {
-            if (preset === 'ssc_photo') {
-                switchTool('compress');
-                document.getElementById('targetKB').value = 45;
-            } else if (preset === 'ssc_sign') {
-                switchTool('signature');
-                document.getElementById('signTargetKB').value = 18;
-            } else if (preset === 'upsc_photo') {
-                switchTool('namedate');
-            } else if (preset === 'ibps') {
-                switchTool('compress');
-                document.getElementById('targetKB').value = 40;
-            } else if (preset === 'passport') {
-                switchTool('passport');
+                reader.readAsDataURL(file);
             }
-            if (rawImage) processImage();
-        }
+        });
 
-        // Main Image Processing Logic (100% Client-Side)
-        function processImage() {
-            if (!rawImage) return;
+        // Main Image Processing Logic (HTML5 Canvas Engine)
+        function processCurrentImage() {
+            if (!originalImage) return;
 
-            let targetW = rawImage.naturalWidth;
-            let targetH = rawImage.naturalHeight;
-
-            // Mode 1: Passport Dimension Setup
-            if (activeTool === 'passport') {
-                targetW = 413; // 3.5cm at 300DPI approx
-                targetH = 531; // 4.5cm at 300DPI approx
-            }
-
-            // Mode 2: Custom Dimension
-            if (activeTool === 'dimension') {
-                const cw = parseInt(document.getElementById('customWidth').value);
-                const ch = parseInt(document.getElementById('customHeight').value);
-                if (cw > 0) targetW = cw;
-                if (ch > 0) targetH = ch;
-            }
+            let targetW = parseInt(document.getElementById('inputW').value) || originalImage.naturalWidth;
+            let targetH = parseInt(document.getElementById('inputH').value) || originalImage.naturalHeight;
 
             canvas.width = targetW;
             canvas.height = targetH;
             ctx.clearRect(0, 0, targetW, targetH);
 
-            // Draw base image
-            ctx.drawImage(rawImage, 0, 0, targetW, targetH);
+            // Optional background fill for passport photos
+            if (currentExtra === 'red') {
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(0, 0, targetW, targetH);
+            } else if (currentExtra === 'white') {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, targetW, targetH);
+            }
 
-            // Mode 3: Signature Filter (High Contrast & Pure White BG)
-            if (activeTool === 'signature') {
+            // Draw primary image
+            ctx.drawImage(originalImage, 0, 0, targetW, targetH);
+
+            // Feature: High Contrast White Background for Signature
+            if (currentMode === 'signature') {
                 const imgData = ctx.getImageData(0, 0, targetW, targetH);
-                const data = imgData.data;
-                const contrast = parseFloat(document.getElementById('signContrast').value);
-                for (let i = 0; i < data.length; i += 4) {
-                    let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                    // White thresholding
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    let avg = (d[i] + d[i+1] + d[i+2]) / 3;
                     if (avg > 185) {
-                        data[i] = 255;
-                        data[i+1] = 255;
-                        data[i+2] = 255;
+                        d[i] = 255; d[i+1] = 255; d[i+2] = 255;
                     } else {
-                        let val = ((avg / 255 - 0.5) * contrast + 0.5) * 255;
-                        val = Math.max(0, Math.min(255, val));
-                        data[i] = val;
-                        data[i+1] = val;
-                        data[i+2] = val;
+                        let factor = ((avg / 255 - 0.5) * 1.5 + 0.5) * 255;
+                        d[i] = Math.max(0, Math.min(255, factor));
+                        d[i+1] = d[i]; d[i+2] = d[i];
                     }
                 }
                 ctx.putImageData(imgData, 0, 0);
             }
 
-            // Mode 4: Name and Date Stamp
-            if (activeTool === 'namedate') {
-                const name = document.getElementById('candidateName').value.trim();
-                const dateVal = document.getElementById('photoDate').value;
-
-                if (name || dateVal) {
+            // Feature: Name & Date of Photo (DOP) Strip
+            if (currentMode === 'namedate') {
+                const name = document.getElementById('inputCandidateName').value.trim();
+                const date = document.getElementById('inputCandidateDate').value;
+                if (name || date) {
                     const bannerHeight = Math.round(targetH * 0.16);
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, targetH - bannerHeight, targetW, bannerHeight);
 
                     ctx.fillStyle = '#000000';
                     ctx.textAlign = 'center';
-                    const fontSize = Math.max(12, Math.round(targetW * 0.048));
-                    ctx.font = `bold ${fontSize}px sans-serif`;
+                    const fontPx = Math.max(12, Math.round(targetW * 0.05));
+                    ctx.font = `bold ${fontPx}px sans-serif`;
 
-                    if (name && dateVal) {
+                    if (name && date) {
                         ctx.fillText(name.toUpperCase(), targetW / 2, targetH - (bannerHeight / 2) - 4);
-                        ctx.font = `${Math.round(fontSize * 0.85)}px sans-serif`;
-                        ctx.fillText(`DOP: ${dateVal}`, targetW / 2, targetH - 8);
+                        ctx.font = `${Math.round(fontPx * 0.82)}px sans-serif`;
+                        ctx.fillText(`DOP: ${date}`, targetW / 2, targetH - 6);
                     } else if (name) {
                         ctx.fillText(name.toUpperCase(), targetW / 2, targetH - (bannerHeight / 2) + 6);
-                    } else if (dateVal) {
-                        ctx.fillText(`DOP: ${dateVal}`, targetW / 2, targetH - (bannerHeight / 2) + 6);
+                    } else if (date) {
+                        ctx.fillText(`DOP: ${date}`, targetW / 2, targetH - (bannerHeight / 2) + 6);
                     }
                 }
             }
 
-            // Passport border
-            if (activeTool === 'passport') {
-                const border = document.getElementById('passportBorder').value;
-                if (border === 'thin') {
-                    ctx.strokeStyle = '#cbd5e1';
-                    ctx.lineWidth = 4;
-                    ctx.strokeRect(0, 0, targetW, targetH);
-                } else if (border === 'thick') {
-                    ctx.strokeStyle = '#64748b';
-                    ctx.lineWidth = 8;
-                    ctx.strokeRect(0, 0, targetW, targetH);
+            // Feature: Black & White effect
+            if (currentExtra === 'bw') {
+                const imgData = ctx.getImageData(0, 0, targetW, targetH);
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    let avg = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+                    d[i] = avg; d[i+1] = avg; d[i+2] = avg;
                 }
+                ctx.putImageData(imgData, 0, 0);
             }
 
-            // Update Dimension Label
-            document.getElementById('outputDimLabel').innerText = `${targetW} x ${targetH} px`;
+            // Feature: Passport Border
+            if (currentMode === 'passport' || currentExtra === 'border') {
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(0, 0, targetW, targetH);
+            }
 
-            // Calculate Target KB and Output Size
-            calculateCompressedBlob();
+            document.getElementById('labelOutDim').innerText = `${targetW} x ${targetH} px`;
+
+            // Binary Search Target KB Compression
+            compressToKB(parseFloat(document.getElementById('inputKB').value));
         }
 
-        // Binary Search Compression for Exact Target KB
-        function calculateCompressedBlob() {
-            let targetKB = parseFloat(document.getElementById('targetKB').value);
-            if (activeTool === 'signature') {
-                targetKB = parseFloat(document.getElementById('signTargetKB').value);
+        // Iterative compression towards target file size
+        function compressToKB(targetKB) {
+            let minQ = 0.02;
+            let maxQ = 0.98;
+            let rounds = 0;
+            let format = (currentExtra === 'png') ? 'image/png' : 'image/jpeg';
+
+            if (format === 'image/png') {
+                canvas.toBlob((blob) => {
+                    currentBlob = blob;
+                    document.getElementById('labelOutKB').innerText = (blob.size / 1024).toFixed(1) + ' KB';
+                }, 'image/png');
+                return;
             }
 
-            let minQuality = 0.05;
-            let maxQuality = 0.98;
-            let bestBlob = null;
-            let iterations = 0;
-
-            function testCompression(q) {
+            function step(q) {
                 canvas.toBlob((blob) => {
-                    const currentKB = blob.size / 1024;
-                    bestBlob = blob;
+                    const sizeKB = blob.size / 1024;
+                    currentBlob = blob;
 
-                    if (iterations < 6) {
-                        iterations++;
-                        if (currentKB > targetKB) {
-                            maxQuality = q;
-                            testCompression((minQuality + maxQuality) / 2);
-                        } else if (currentKB < targetKB * 0.9) {
-                            minQuality = q;
-                            testCompression((minQuality + maxQuality) / 2);
+                    if (rounds < 6) {
+                        rounds++;
+                        if (sizeKB > targetKB) {
+                            maxQ = q;
+                            step((minQ + maxQ) / 2);
+                        } else if (sizeKB < targetKB * 0.9) {
+                            minQ = q;
+                            step((minQ + maxQ) / 2);
                         } else {
-                            renderOutput(bestBlob);
+                            document.getElementById('labelOutKB').innerText = sizeKB.toFixed(1) + ' KB';
                         }
                     } else {
-                        renderOutput(bestBlob);
+                        document.getElementById('labelOutKB').innerText = sizeKB.toFixed(1) + ' KB';
                     }
-                }, 'image/jpeg', q);
+                }, format, q);
             }
-
-            testCompression(0.85);
+            step(0.85);
         }
 
-        let currentDownloadBlob = null;
-        function renderOutput(blob) {
-            currentDownloadBlob = blob;
-            document.getElementById('outputSizeLabel').innerText = (blob.size / 1024).toFixed(1) + ' KB';
-        }
-
-        function downloadResult() {
-            if (!currentDownloadBlob) return;
+        // Download Action
+        function downloadCurrentResult() {
+            if (!currentBlob) return;
+            const ext = (currentExtra === 'png') ? 'png' : 'jpg';
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(currentDownloadBlob);
-            link.download = `ResizeKB_${activeTool}_${Date.now()}.jpg`;
+            link.href = URL.createObjectURL(currentBlob);
+            link.download = `ResizeKB_${Date.now()}.${ext}`;
             link.click();
         }
-
-        // Listen for live input updates
-        document.getElementById('candidateName').addEventListener('input', processImage);
-        document.getElementById('photoDate').addEventListener('change', processImage);
-        document.getElementById('targetKB').addEventListener('input', processImage);
-        document.getElementById('signContrast').addEventListener('change', processImage);
-        document.getElementById('passportBorder').addEventListener('change', processImage);
     </script>
 </body>
 </html>
