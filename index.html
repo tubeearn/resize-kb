@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resize KB - Free Online Photo, Signature & Document Resizer</title>
+    <title>Resize KB - Free All-in-One Image, PDF & Document Resizer</title>
     <meta name="description" content="All-in-one free photo resizer, image compressor to exact KB, passport photo maker, signature cleaner, DPI converter, and format converter.">
+    <!-- External client-side libraries for PDF, OCR and utilities -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
             --primary: #3b49df;
             --primary-hover: #2f3ab2;
-            --btn-border: #7c7cd0;
-            --btn-text: #3c3b88;
+            --btn-border: #8585d8;
+            --btn-text: #303387;
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
             --text-dark: #1e293b;
@@ -34,7 +36,6 @@
             flex-direction: column;
         }
 
-        /* Header */
         header {
             background: #2b3990;
             color: white;
@@ -42,7 +43,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -60,10 +61,9 @@
             background: white;
             color: #2b3990;
             font-weight: 900;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             padding: 4px 10px;
             border-radius: 6px;
-            border: 2px solid white;
         }
 
         .brand-title {
@@ -75,51 +75,48 @@
         .nav-tag {
             background: #16a34a;
             color: white;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
         }
 
-        /* Container */
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
             padding: 24px 16px 80px;
             width: 100%;
         }
 
-        /* Hero */
         .hero {
             text-align: center;
             margin-bottom: 24px;
         }
 
         .hero h1 {
-            font-size: 1.9rem;
+            font-size: 2.1rem;
             font-weight: 800;
-            color: #111827;
-            margin-bottom: 6px;
+            color: #0f172a;
+            margin-bottom: 8px;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 0.98rem;
+            font-size: 1rem;
         }
 
-        /* Search Bar */
         .search-box-wrap {
-            max-width: 580px;
-            margin: 0 auto 32px;
+            max-width: 620px;
+            margin: 0 auto 36px;
             position: relative;
         }
 
         .search-input {
             width: 100%;
-            padding: 12px 18px 12px 42px;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 0.98rem;
+            padding: 14px 18px 14px 44px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 1rem;
             outline: none;
             background: white;
             transition: all 0.2s;
@@ -127,31 +124,29 @@
 
         .search-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 73, 223, 0.15);
+            box-shadow: 0 0 0 4px rgba(59, 73, 223, 0.15);
         }
 
         .search-icon {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: #64748b;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
-        /* Sections & Tool Button Grid */
         .category-section {
-            margin-bottom: 28px;
+            margin-bottom: 32px;
         }
 
         .category-title {
-            font-size: 1.15rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 800;
             color: #1e293b;
             margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         .tools-grid {
@@ -160,29 +155,29 @@
             gap: 12px;
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 600px) {
             .tools-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Pi7-style outlined button */
         .tool-btn {
             background: #ffffff;
             border: 1.5px solid var(--btn-border);
             border-radius: var(--radius);
-            padding: 12px 14px;
+            padding: 13px 16px;
             text-align: center;
             color: var(--btn-text);
-            font-size: 0.92rem;
+            font-size: 0.94rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.18s ease;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none;
         }
 
         .tool-btn:hover {
@@ -192,7 +187,7 @@
             transform: translateY(-1px);
         }
 
-        /* Universal Tool Modal Workspace */
+        /* Modal Workspace */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -200,7 +195,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.65);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(4px);
             z-index: 200;
             align-items: center;
@@ -215,11 +210,11 @@
         .modal-card {
             background: white;
             width: 100%;
-            max-width: 720px;
-            max-height: 90vh;
+            max-width: 740px;
+            max-height: 92vh;
             border-radius: 12px;
             overflow-y: auto;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
             position: relative;
             padding: 24px;
         }
@@ -234,7 +229,7 @@
         }
 
         .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #1e293b;
         }
@@ -242,10 +237,10 @@
         .modal-close {
             background: #f1f5f9;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -255,9 +250,9 @@
 
         .modal-close:hover {
             background: #e2e8f0;
+            color: #0f172a;
         }
 
-        /* Dropzone */
         .dropzone {
             border: 2px dashed #94a3b8;
             border-radius: var(--radius);
@@ -275,23 +270,22 @@
         }
 
         .dropzone-icon {
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             margin-bottom: 6px;
         }
 
         .dropzone-text {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #1e293b;
         }
 
         .dropzone-sub {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 4px;
         }
 
-        /* Controls */
         .tool-controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -315,15 +309,18 @@
             color: #334155;
         }
 
-        .control-group input, .control-group select {
+        .control-group input, .control-group select, .control-group textarea {
             padding: 8px 12px;
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             outline: none;
         }
 
-        /* Preview box */
+        .control-group input:focus, .control-group select:focus {
+            border-color: var(--primary);
+        }
+
         .preview-box {
             display: none;
             border-top: 1px solid var(--border);
@@ -336,8 +333,8 @@
         }
 
         .canvas-holder {
-            max-width: 260px;
-            max-height: 260px;
+            max-width: 320px;
+            max-height: 320px;
             margin: 0 auto 14px;
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -358,9 +355,10 @@
             display: flex;
             gap: 12px;
             justify-content: center;
-            font-size: 0.86rem;
+            font-size: 0.88rem;
             margin-bottom: 14px;
             font-weight: 600;
+            flex-wrap: wrap;
         }
 
         .btn-download {
@@ -369,7 +367,7 @@
             border: none;
             padding: 12px 28px;
             border-radius: 6px;
-            font-size: 0.98rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
@@ -383,7 +381,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <a href="#" class="brand-container">
             <span class="brand-logo">KB</span>
@@ -393,13 +390,11 @@
     </header>
 
     <div class="container">
-        <!-- Hero Header -->
         <div class="hero">
             <h1>Compress, Resize & Edit Pictures</h1>
             <p>Direct browser-side tools for online exam forms, signatures, and document optimization.</p>
         </div>
 
-        <!-- Search Bar -->
         <div class="search-box-wrap">
             <span class="search-icon">🔍</span>
             <input type="text" id="toolSearch" class="search-input" placeholder="Search Tool (e.g. 50KB, Passport, Signature, DPI)..." oninput="filterTools()">
@@ -407,22 +402,207 @@
 
         <!-- 1. Most Used Tools -->
         <div class="category-section">
-            <div class="category-title">⭐ Most Used Tools</div>
+            <div class="category-title">Most Used Tools</div>
             <div class="tools-grid">
                 <button class="tool-btn" onclick="openTool('passport', 'Passport Photo Maker', 50, 413, 531)">Passport Photo Maker</button>
                 <button class="tool-btn" onclick="openTool('compress', 'Reduce Image Size in KB', 50)">Reduce Image Size in KB</button>
                 <button class="tool-btn" onclick="openTool('dimension', 'Resize Image Pixel', 100, 600, 600)">Resize Image Pixel</button>
-                <button class="tool-btn" onclick="openTool('signature', 'Resize Signature', 20, 280, 120)">Resize Signature</button>
-                <button class="tool-btn" onclick="openTool('namedate', 'Add Name & Date on Photo', 50, 413, 531)">Add Name & DOB on Photo</button>
-                <button class="tool-btn" onclick="openTool('passport', 'Resize Image (3.5cm x 4.5cm)', 50, 413, 531)">Resize Image (3.5cm x 4.5cm)</button>
-                <button class="tool-btn" onclick="openTool('dimension', 'Resize Image in Centimeter', 50, 413, 531)">Resize Image in Centimeter</button>
+                <button class="tool-btn" onclick="openTool('text', 'Text to Handwriting', 100)">Text to Handwriting</button>
+                <button class="tool-btn" onclick="openTool('info', 'Image to Text (OCR)', 0)">Image to Text (OCR)</button>
+                <button class="tool-btn" onclick="openTool('collage', 'Photo Collage Maker', 150)">Photo Collage Maker</button>
+                <button class="tool-btn" onclick="openTool('gensign', 'Generate Signature', 20)">Generate Signature</button>
                 <button class="tool-btn" onclick="openTool('compress', 'Increase Image Size In KB', 200)">Increase Image Size In KB</button>
+                <button class="tool-btn" onclick="openTool('effects', 'AI Photo Enhancer', 100, 0, 0, 'enhance')">AI Photo Enhancer</button>
+                <button class="tool-btn" onclick="openTool('signature', 'Resize Signature', 20, 280, 120)">Resize Signature</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize Image In Centimeter', 50, 413, 531)">Resize Image In Centimeter</button>
+                <button class="tool-btn" onclick="openTool('passport', 'Resize Image (3.5cm x 4.5cm)', 50, 413, 531)">Resize Image (3.5cm x 4.5cm)</button>
             </div>
         </div>
 
-        <!-- 2. Exact Target Sizes -->
+        <!-- 2. Basic Editing -->
         <div class="category-section">
-            <div class="category-title">🎯 Exact Target Sizes</div>
+            <div class="category-title">Basic Editing</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('effects', 'Blur Background', 80, 0, 0, 'blur')">Blur Background</button>
+                <button class="tool-btn" onclick="openTool('signature', 'Remove Background', 50, 0, 0, 'removebg')">Remove Background</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Remove Text from Image', 60)">Remove Text from Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Remove Logo from Photo', 60)">Remove Logo from Photo</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Remove Object from Photo', 60)">Remove Object from Photo</button>
+                <button class="tool-btn" onclick="openTool('namedate', 'Add Name & DOB on Photo', 50, 413, 531)">Add Name & DOB on Photo</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Rotate Image', 80, 0, 0, 'rotate')">Rotate Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Flip Image', 80, 0, 0, 'flip')">Flip Image</button>
+                <button class="tool-btn" onclick="openTool('watermark', 'Watermark Images', 80)">Watermark Images</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Freehand Crop', 80)">Freehand Crop</button>
+                <button class="tool-btn" onclick="openTool('crop', 'Circle Crop', 60, 400, 400, 'circle')">Circle Crop</button>
+                <button class="tool-btn" onclick="openTool('crop', 'Square Crop', 60, 400, 400, 'square')">Square Crop</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Round Corners', 70, 0, 0, 'round')">Round Corners</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Change Aspect Ratio', 80)">Change Aspect Ratio</button>
+                <button class="tool-btn" onclick="openTool('merge', 'Merge Photo & Signature', 50)">Merge Photo & Signature</button>
+                <button class="tool-btn" onclick="openTool('join', 'Join Multiple Images', 100)">Join Multiple Images</button>
+                <button class="tool-btn" onclick="openTool('info', 'Photos to Video', 0)">Photos to Video</button>
+                <button class="tool-btn" onclick="openTool('info', 'JPG to MP4', 0)">JPG to MP4</button>
+                <button class="tool-btn" onclick="openTool('info', 'Slideshow Maker', 0)">Slideshow Maker</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Word to JPG', 100)">Word to JPG</button>
+                <button class="tool-btn" onclick="openTool('info', 'MP4 to JPG', 0)">MP4 to JPG</button>
+                <button class="tool-btn" onclick="openTool('split', 'Split Image', 80)">Split Image</button>
+                <button class="tool-btn" onclick="openTool('picker', 'Image Color Picker', 0)">Image Color Picker</button>
+                <button class="tool-btn" onclick="openTool('meta', 'Edit Metadata', 80)">Edit Metadata</button>
+                <button class="tool-btn" onclick="openTool('meta', 'View Metadata', 0)">View Metadata</button>
+                <button class="tool-btn" onclick="openTool('meta', 'Remove Metadata', 80)">Remove Metadata</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Crop PNG', 80, 0, 0, 'png')">Crop PNG</button>
+            </div>
+        </div>
+
+        <!-- 3. Blur, Pixlate and Special Effects -->
+        <div class="category-section">
+            <div class="category-title">Blur, Pixlate and Special Effects</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('effects', 'Beautify Image', 80, 0, 0, 'beautify')">Beautify Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Deep Fry Photo', 80, 0, 0, 'deepfry')">Deep Fry Photo</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Unblur Image', 80, 0, 0, 'enhance')">Unblur Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Blur Image', 80, 0, 0, 'blur')">Blur Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Blur Face', 80, 0, 0, 'blurface')">Blur Face</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Unblur Face', 80, 0, 0, 'enhance')">Unblur Face</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Add Border To Image', 80, 0, 0, 'border')">Add Border To Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Pixelate Image', 80, 0, 0, 'pixelate')">Pixelate Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Pixelate Face', 80, 0, 0, 'pixelate')">Pixelate Face</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Censor Photo', 80, 0, 0, 'censor')">Censor Photo</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Motion Blur', 80, 0, 0, 'motionblur')">Motion Blur</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Grayscale Image', 80, 0, 0, 'grayscale')">Grayscale Image</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Black & White', 80, 0, 0, 'bw')">Black & White</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Picture to Pixel Art', 80, 0, 0, 'pixelart')">Picture to Pixel Art</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Add White Border To Image', 80, 0, 0, 'whiteborder')">Add White Border To Image</button>
+                <button class="tool-btn" onclick="openTool('info', 'AI Face Generator', 0)">AI Face Generator</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Blemishes Remover', 80, 0, 0, 'beautify')">Blemishes Remover</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Retouch Image', 80, 0, 0, 'retouch')">Retouch Image</button>
+                <button class="tool-btn" onclick="openTool('watermark', 'Add Text to Image', 80)">Add Text to Image</button>
+                <button class="tool-btn" onclick="openTool('watermark', 'Add Logo to Image', 80)">Add Logo to Image</button>
+            </div>
+        </div>
+
+        <!-- 4. DPI & Quality -->
+        <div class="category-section">
+            <div class="category-title">DPI & Quality</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('effects', 'Increase Image Quality', 100, 0, 0, 'enhance')">Increase Image Quality</button>
+                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (200, 300, 600)', 150, 0, 0, 300)">Convert DPI (200, 300, 600)</button>
+                <button class="tool-btn" onclick="openTool('dpi', 'Check Image DPI', 0)">Check Image DPI</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Super Resolution', 150, 0, 0, 'superres')">Super Resolution</button>
+            </div>
+        </div>
+
+        <!-- 5. General Resizing -->
+        <div class="category-section">
+            <div class="category-title">General Resizing</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize Image by Pixel', 100, 800, 800)">Resize Image by Pixel</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize in Centimeters', 80, 413, 531)">Resize in Centimeters</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize in Millimeters', 80, 413, 531)">Resize in Millimeters</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Resize in Inches', 100, 600, 600)">Resize in Inches</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Bulk Image Resizer', 100)">Bulk Image Resizer</button>
+                <button class="tool-btn" onclick="openTool('effects', 'Upscale Image With AI', 150, 0, 0, 'upscale')">Upscale Image With AI</button>
+            </div>
+        </div>
+
+        <!-- 6. Resize Other Official Sizes -->
+        <div class="category-section">
+            <div class="category-title">Resize Other Official Sizes</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('dimension', 'A4 Size Document', 300, 1240, 1754)">A4 Size</button>
+                <button class="tool-btn" onclick="openTool('passport', 'SSC Photo Resize (3.5x4.5cm, 20-50KB)', 45, 413, 531)">SSC Photo Resize</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'PAN Card Photo Resize', 50, 213, 213)">PAN Card</button>
+                <button class="tool-btn" onclick="openTool('namedate', 'UPSC Photo (20-300KB)', 100, 413, 531)">UPSC Photo</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'PSC Photo Resize', 50, 413, 531)">PSC Photo</button>
+            </div>
+        </div>
+
+        <!-- 7. Passport & ID Photo Sizes -->
+        <div class="category-section">
+            <div class="category-title">Passport & ID Photo Sizes</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('passport', 'Passport Photo Maker', 50, 413, 531)">Passport Photo Maker</button>
+                <button class="tool-btn" onclick="openTool('passport', 'Red Background Passport', 50, 413, 531, 'red')">Red Background Passport</button>
+                <button class="tool-btn" onclick="openTool('passport', 'White Background Passport', 50, 413, 531, 'white')">White Background Passport</button>
+                <button class="tool-btn" onclick="openTool('signature', 'Resize Sign 6cm x 2cm (300 DPI)', 20, 708, 236)">Resize Sign 6cm x 2cm (300 DPI)</button>
+                <button class="tool-btn" onclick="openTool('passport', '3.5cm x 4.5cm Standard Photo', 50, 413, 531)">3.5cm x 4.5cm</button>
+                <button class="tool-btn" onclick="openTool('signature', 'Signature 50mm x 20mm', 20, 590, 236)">Signature 50mm x 20mm</button>
+                <button class="tool-btn" onclick="openTool('passport', '35mm x 45mm Photo', 50, 413, 531)">35mm x 45mm</button>
+                <button class="tool-btn" onclick="openTool('dimension', '2 x 2 Inch Photo (Visa)', 100, 600, 600)">2 x 2 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '3 x 4 Inch Photo', 150, 900, 1200)">3 x 4 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '4 x 6 Inch Print Size', 200, 1200, 1800)">4 x 6 Inch</button>
+                <button class="tool-btn" onclick="openTool('dimension', '600x600 Pixels Square', 100, 600, 600)">600x600 Pixels</button>
+            </div>
+        </div>
+
+        <!-- 8. Resize For Social Media -->
+        <div class="category-section">
+            <div class="category-title">Resize For Social Media</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('crop', 'Instagram (No Crop)', 100, 1080, 1080)">Instagram (No Crop)</button>
+                <button class="tool-btn" onclick="openTool('split', 'Instagram Grid Maker', 150)">Instagram Grid Maker</button>
+                <button class="tool-btn" onclick="openTool('crop', 'WhatsApp DP (500x500)', 80, 500, 500)">WhatsApp DP</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'YouTube Banner (2560x1440)', 300, 2560, 1440)">YouTube Banner</button>
+                <button class="tool-btn" onclick="openTool('dimension', 'Zoom Out Image', 100)">Zoom Out Image</button>
+            </div>
+        </div>
+
+        <!-- 9. Format Conversions -->
+        <div class="category-section">
+            <div class="category-title">Format Conversions</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('convert', 'Image Converter', 80, 0, 0, 'jpg')">Image Converter</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Image to JPG', 80, 0, 0, 'jpg')">Image to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'JPEG to JPG', 80, 0, 0, 'jpg')">JPEG to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'HEIC to JPG', 80, 0, 0, 'jpg')">HEIC to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'WEBP to JPG', 80, 0, 0, 'jpg')">WEBP to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'WebP to PNG', 100, 0, 0, 'png')">WebP to PNG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'AVIF to JPG', 80, 0, 0, 'jpg')">AVIF to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'JFIF to JPG', 80, 0, 0, 'jpg')">JFIF to JPG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'JPEG to PNG', 100, 0, 0, 'png')">JPEG to PNG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'PNG to JPEG', 80, 0, 0, 'jpg')">PNG to JPEG</button>
+                <button class="tool-btn" onclick="openTool('convert', 'PNG to ICO', 50, 64, 64, 'png')">PNG to ICO</button>
+                <button class="tool-btn" onclick="openTool('info', 'Image to Word', 0)">Image to Word</button>
+                <button class="tool-btn" onclick="openTool('info', 'JPG to Text', 0)">JPG to Text</button>
+                <button class="tool-btn" onclick="openTool('info', 'PNG to Text', 0)">PNG to Text</button>
+                <button class="tool-btn" onclick="openTool('convert', 'Favicon Generator', 30, 32, 32, 'png')">Favicon Generator</button>
+            </div>
+        </div>
+
+        <!-- 10. Image to PDF -->
+        <div class="category-section">
+            <div class="category-title">Image to PDF</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('pdf', 'Image to PDF', 0)">Image to PDF</button>
+                <button class="tool-btn" onclick="openTool('info', 'PDF to JPG', 0)">PDF to JPG</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 50KB)', 50)">JPG to PDF (Under 50KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 100KB)', 100)">JPG to PDF (Under 100KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 150KB)', 150)">JPG to PDF (Under 150KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPEG to PDF (Under 200KB)', 200)">JPEG to PDF (Under 200KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 250KB)', 250)">JPG to PDF (Under 250KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 300KB)', 300)">JPG to PDF (Under 300KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 400KB)', 400)">JPG to PDF (Under 400KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 500KB)', 500)">JPG to PDF (Under 500KB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 1MB)', 1000)">JPG to PDF (Under 1MB)</button>
+                <button class="tool-btn" onclick="openTool('pdf', 'JPG to PDF (Under 2MB)', 2000)">JPG to PDF (Under 2MB)</button>
+            </div>
+        </div>
+
+        <!-- 11. General Compression -->
+        <div class="category-section">
+            <div class="category-title">General Compression</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openTool('compress', 'Image Compressor', 70)">Image Compressor</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Reduce Size in KB', 50)">Reduce Size in KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Reduce Size in MB', 800)">Reduce Size in MB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPG to KB', 50)">JPG to KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Convert MB to KB', 100)">Convert MB to KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Convert KB to MB', 1024)">Convert KB to MB</button>
+            </div>
+        </div>
+
+        <!-- 12. Exact Target Sizes -->
+        <div class="category-section">
+            <div class="category-title">Exact Target Sizes</div>
             <div class="tools-grid">
                 <button class="tool-btn" onclick="openTool('compress', 'Compress to 5KB', 5)">Compress to 5KB</button>
                 <button class="tool-btn" onclick="openTool('compress', 'JPEG to 10KB', 10)">JPEG to 10KB</button>
@@ -442,74 +622,15 @@
                 <button class="tool-btn" onclick="openTool('compress', 'JPEG to 150KB', 150)">JPEG to 150KB</button>
                 <button class="tool-btn" onclick="openTool('compress', 'Compress to 200KB', 200)">Compress to 200KB</button>
                 <button class="tool-btn" onclick="openTool('compress', 'Resize to 200KB', 200)">Resize to 200KB</button>
-            </div>
-        </div>
-
-        <!-- 3. Official Exam & Government Sizes -->
-        <div class="category-section">
-            <div class="category-title">🏛️ Resize Other Official Sizes</div>
-            <div class="tools-grid">
-                <button class="tool-btn" onclick="openTool('passport', 'SSC Photo Resize (3.5x4.5cm, 20-50KB)', 45, 413, 531)">SSC Photo Resize</button>
-                <button class="tool-btn" onclick="openTool('signature', 'SSC Signature Resize (10-20KB)', 18, 280, 120)">SSC Signature Resize</button>
-                <button class="tool-btn" onclick="openTool('namedate', 'UPSC Photo with Name & Date', 100, 413, 531)">UPSC Photo</button>
-                <button class="tool-btn" onclick="openTool('dimension', 'PAN Card Photo Resize', 50, 213, 213)">PAN Card</button>
-                <button class="tool-btn" onclick="openTool('dimension', 'PSC Exam Photo', 50, 413, 531)">PSC Photo</button>
-                <button class="tool-btn" onclick="openTool('dimension', 'A4 Size Document', 300, 1240, 1754)">A4 Size</button>
-            </div>
-        </div>
-
-        <!-- 4. Passport & ID Photo Sizes -->
-        <div class="category-section">
-            <div class="category-title">🛂 Passport & ID Photo Sizes</div>
-            <div class="tools-grid">
-                <button class="tool-btn" onclick="openTool('passport', 'White Background Passport', 50, 413, 531, 'white')">White Background Passport</button>
-                <button class="tool-btn" onclick="openTool('passport', 'Red Background Passport', 50, 413, 531, 'red')">Red Background Passport</button>
-                <button class="tool-btn" onclick="openTool('dimension', '3.5cm x 4.5cm Standard', 50, 413, 531)">3.5cm x 4.5cm</button>
-                <button class="tool-btn" onclick="openTool('dimension', '35mm x 45mm Standard', 50, 413, 531)">35mm x 45mm</button>
-                <button class="tool-btn" onclick="openTool('dimension', '2 x 2 Inch (US Visa)', 100, 600, 600)">2 x 2 Inch</button>
-                <button class="tool-btn" onclick="openTool('dimension', '3 x 4 Inch Photo', 150, 900, 1200)">3 x 4 Inch</button>
-                <button class="tool-btn" onclick="openTool('dimension', '4 x 6 Inch Print Size', 200, 1200, 1800)">4 x 6 Inch</button>
-                <button class="tool-btn" onclick="openTool('dimension', '600x600 Pixels Square', 100, 600, 600)">600x600 Pixels</button>
-            </div>
-        </div>
-
-        <!-- 5. DPI & Quality -->
-        <div class="category-section">
-            <div class="category-title">🎚️ DPI & Quality</div>
-            <div class="tools-grid">
-                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (200 DPI)', 100, 0, 0, 200)">Convert DPI (200 DPI)</button>
-                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (300 DPI)', 150, 0, 0, 300)">Convert DPI (300 DPI)</button>
-                <button class="tool-btn" onclick="openTool('dpi', 'Convert DPI (600 DPI)', 250, 0, 0, 600)">Convert DPI (600 DPI)</button>
-                <button class="tool-btn" onclick="openTool('effects', 'Increase Image Quality', 100)">Increase Image Quality</button>
-            </div>
-        </div>
-
-        <!-- 6. Basic Editing, Blur & Effects -->
-        <div class="category-section">
-            <div class="category-title">🎨 Basic Editing & Effects</div>
-            <div class="tools-grid">
-                <button class="tool-btn" onclick="openTool('signature', 'Clean Signature Background', 20)">Clean Signature Background</button>
-                <button class="tool-btn" onclick="openTool('namedate', 'Add Name & Date on Photo', 50)">Add Name & DOB on Photo</button>
-                <button class="tool-btn" onclick="openTool('effects', 'Grayscale / Black & White', 50, 0, 0, 'bw')">Black & White</button>
-                <button class="tool-btn" onclick="openTool('effects', 'Add Border to Image', 50, 0, 0, 'border')">Add Border To Image</button>
-                <button class="tool-btn" onclick="openTool('effects', 'Rotate 90 Degrees', 50, 0, 0, 'rotate')">Rotate Image</button>
-                <button class="tool-btn" onclick="openTool('effects', 'Flip Horizontal', 50, 0, 0, 'flip')">Flip Image</button>
-            </div>
-        </div>
-
-        <!-- 7. Format Conversions -->
-        <div class="category-section">
-            <div class="category-title">🔄 Format Conversions</div>
-            <div class="tools-grid">
-                <button class="tool-btn" onclick="openTool('convert', 'Convert Image to JPG', 80, 0, 0, 'jpg')">Image to JPG</button>
-                <button class="tool-btn" onclick="openTool('convert', 'Convert Image to PNG', 100, 0, 0, 'png')">Convert to PNG</button>
-                <button class="tool-btn" onclick="openTool('convert', 'Convert WEBP to JPG', 80, 0, 0, 'jpg')">WEBP to JPG</button>
-                <button class="tool-btn" onclick="openTool('convert', 'Convert PNG to JPG', 80, 0, 0, 'jpg')">PNG to JPG</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 300KB', 300)">JPEG to 300KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'JPEG to 500KB', 500)">JPEG to 500KB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 1MB', 1000)">Compress to 1MB</button>
+                <button class="tool-btn" onclick="openTool('compress', 'Compress to 2MB', 2000)">Compress to 2MB</button>
             </div>
         </div>
     </div>
 
-    <!-- Active Tool Modal Workspace -->
+    <!-- Universal Active Workspace Modal -->
     <div class="modal-overlay" id="toolModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -517,19 +638,19 @@
                 <button class="modal-close" onclick="closeToolModal()">✕</button>
             </div>
 
-            <!-- Dropzone -->
+            <!-- Upload Area -->
             <div class="dropzone" id="modalDropzone" onclick="document.getElementById('toolFileInput').click()">
-                <input type="file" id="toolFileInput" accept="image/*" style="display: none;">
+                <input type="file" id="toolFileInput" accept="image/*,application/pdf" style="display: none;">
                 <div class="dropzone-icon">📁</div>
-                <div class="dropzone-text">Click or Drop Photo Here</div>
-                <div class="dropzone-sub">Files process entirely in your browser memory (100% private)</div>
+                <div class="dropzone-text">Click or Drop File Here</div>
+                <div class="dropzone-sub">All processing happens locally inside your browser (100% private)</div>
             </div>
 
-            <!-- Dynamic Settings Bar -->
+            <!-- Controls -->
             <div class="tool-controls" id="toolControls">
                 <div class="control-group" id="groupKB">
                     <label>Target File Size (KB)</label>
-                    <input type="number" id="inputKB" value="50" min="5" max="2000" oninput="processCurrentImage()">
+                    <input type="number" id="inputKB" value="50" min="2" max="5000" oninput="processCurrentImage()">
                 </div>
                 <div class="control-group" id="groupW">
                     <label>Width (px)</label>
@@ -541,15 +662,19 @@
                 </div>
                 <div class="control-group" id="groupName" style="display: none;">
                     <label>Candidate Name</label>
-                    <input type="text" id="inputCandidateName" placeholder="e.g. AMIT KUMAR" oninput="processCurrentImage()">
+                    <input type="text" id="inputCandidateName" placeholder="e.g. RAHUL SHARMA" oninput="processCurrentImage()">
                 </div>
                 <div class="control-group" id="groupDate" style="display: none;">
                     <label>Date of Photo (DOP)</label>
                     <input type="date" id="inputCandidateDate" onchange="processCurrentImage()">
                 </div>
+                <div class="control-group" id="groupWatermark" style="display: none;">
+                    <label>Watermark / Stamp Text</label>
+                    <input type="text" id="inputWatermarkText" placeholder="Sample / Verified" oninput="processCurrentImage()">
+                </div>
             </div>
 
-            <!-- Preview and Download Box -->
+            <!-- Preview -->
             <div class="preview-box" id="previewArea">
                 <div class="canvas-holder">
                     <canvas id="activeCanvas"></canvas>
@@ -561,7 +686,7 @@
                     <div>•</div>
                     <div>Dimensions: <span id="labelOutDim">0 x 0</span></div>
                 </div>
-                <button class="btn-download" onclick="downloadCurrentResult()">📥 Download Image</button>
+                <button class="btn-download" id="btnMainDownload" onclick="downloadCurrentResult()">📥 Download Result</button>
             </div>
         </div>
     </div>
@@ -571,6 +696,8 @@
         let currentExtra = null;
         let originalImage = null;
         let currentBlob = null;
+        let rotationAngle = 0;
+        let isFlipped = false;
 
         const modal = document.getElementById('toolModal');
         const modalTitle = document.getElementById('modalToolName');
@@ -579,7 +706,7 @@
         const ctx = canvas.getContext('2d');
         const previewArea = document.getElementById('previewArea');
 
-        // Search Filter
+        // Search Filter Logic
         function filterTools() {
             const query = document.getElementById('toolSearch').value.toLowerCase().trim();
             const buttons = document.querySelectorAll('.tool-btn');
@@ -593,22 +720,24 @@
             });
         }
 
-        // Open Tool Modal with Preconfigured Values
+        // Open Modal Setup
         function openTool(mode, title, defaultKB = 50, defaultW = 0, defaultH = 0, extra = null) {
             currentMode = mode;
             currentExtra = extra;
+            rotationAngle = (extra === 'rotate') ? 90 : 0;
+            isFlipped = (extra === 'flip');
             modalTitle.innerText = title;
 
-            // Setup input defaults
-            document.getElementById('inputKB').value = defaultKB;
+            document.getElementById('inputKB').value = defaultKB > 0 ? defaultKB : 50;
             document.getElementById('inputW').value = defaultW > 0 ? defaultW : (originalImage ? originalImage.naturalWidth : 413);
             document.getElementById('inputH').value = defaultH > 0 ? defaultH : (originalImage ? originalImage.naturalHeight : 531);
 
-            // Toggle specific input groups
+            // Toggle input visibility
             document.getElementById('groupName').style.display = (mode === 'namedate') ? 'flex' : 'none';
             document.getElementById('groupDate').style.display = (mode === 'namedate') ? 'flex' : 'none';
-            document.getElementById('groupW').style.display = (mode === 'compress') ? 'none' : 'flex';
-            document.getElementById('groupH').style.display = (mode === 'compress') ? 'none' : 'flex';
+            document.getElementById('groupWatermark').style.display = (mode === 'watermark') ? 'flex' : 'none';
+            document.getElementById('groupW').style.display = (mode === 'compress' || mode === 'pdf') ? 'none' : 'flex';
+            document.getElementById('groupH').style.display = (mode === 'compress' || mode === 'pdf') ? 'none' : 'flex';
 
             modal.classList.add('active');
 
@@ -621,7 +750,7 @@
             modal.classList.remove('active');
         }
 
-        // File Handler
+        // Upload listener
         fileInput.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
@@ -631,7 +760,7 @@
                     const img = new Image();
                     img.onload = () => {
                         originalImage = img;
-                        if (currentMode === 'compress') {
+                        if (currentMode === 'compress' || currentMode === 'pdf') {
                             document.getElementById('inputW').value = img.naturalWidth;
                             document.getElementById('inputH').value = img.naturalHeight;
                         }
@@ -644,7 +773,7 @@
             }
         });
 
-        // Main Image Processing Logic (HTML5 Canvas Engine)
+        // Main Image Processing Logic (Canvas 2D)
         function processCurrentImage() {
             if (!originalImage) return;
 
@@ -655,20 +784,29 @@
             canvas.height = targetH;
             ctx.clearRect(0, 0, targetW, targetH);
 
-            // Optional background fill for passport photos
-            if (currentExtra === 'red') {
-                ctx.fillStyle = '#dc2626';
-                ctx.fillRect(0, 0, targetW, targetH);
-            } else if (currentExtra === 'white') {
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, targetW, targetH);
+            ctx.save();
+
+            // Handle Rotation & Flip
+            if (rotationAngle !== 0 || isFlipped) {
+                ctx.translate(targetW / 2, targetH / 2);
+                if (rotationAngle !== 0) ctx.rotate((rotationAngle * Math.PI) / 180);
+                if (isFlipped) ctx.scale(-1, 1);
+                ctx.drawImage(originalImage, -targetW / 2, -targetH / 2, targetW, targetH);
+            } else {
+                // Background colors for Passport
+                if (currentExtra === 'red') {
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(0, 0, targetW, targetH);
+                } else if (currentExtra === 'white') {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, targetW, targetH);
+                }
+                ctx.drawImage(originalImage, 0, 0, targetW, targetH);
             }
+            ctx.restore();
 
-            // Draw primary image
-            ctx.drawImage(originalImage, 0, 0, targetW, targetH);
-
-            // Feature: High Contrast White Background for Signature
-            if (currentMode === 'signature') {
+            // Signature & Remove Background cleaner
+            if (currentMode === 'signature' || currentExtra === 'removebg') {
                 const imgData = ctx.getImageData(0, 0, targetW, targetH);
                 const d = imgData.data;
                 for (let i = 0; i < d.length; i += 4) {
@@ -676,7 +814,7 @@
                     if (avg > 185) {
                         d[i] = 255; d[i+1] = 255; d[i+2] = 255;
                     } else {
-                        let factor = ((avg / 255 - 0.5) * 1.5 + 0.5) * 255;
+                        let factor = ((avg / 255 - 0.5) * 1.6 + 0.5) * 255;
                         d[i] = Math.max(0, Math.min(255, factor));
                         d[i+1] = d[i]; d[i+2] = d[i];
                     }
@@ -684,18 +822,29 @@
                 ctx.putImageData(imgData, 0, 0);
             }
 
-            // Feature: Name & Date of Photo (DOP) Strip
+            // Black & White or Grayscale
+            if (currentExtra === 'bw' || currentExtra === 'grayscale') {
+                const imgData = ctx.getImageData(0, 0, targetW, targetH);
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    let gray = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+                    d[i] = gray; d[i+1] = gray; d[i+2] = gray;
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            // Name & Date Banner (SSC/UPSC)
             if (currentMode === 'namedate') {
                 const name = document.getElementById('inputCandidateName').value.trim();
                 const date = document.getElementById('inputCandidateDate').value;
                 if (name || date) {
-                    const bannerHeight = Math.round(targetH * 0.16);
+                    const bannerHeight = Math.round(targetH * 0.17);
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, targetH - bannerHeight, targetW, bannerHeight);
 
                     ctx.fillStyle = '#000000';
                     ctx.textAlign = 'center';
-                    const fontPx = Math.max(12, Math.round(targetW * 0.05));
+                    const fontPx = Math.max(12, Math.round(targetW * 0.052));
                     ctx.font = `bold ${fontPx}px sans-serif`;
 
                     if (name && date) {
@@ -710,31 +859,31 @@
                 }
             }
 
-            // Feature: Black & White effect
-            if (currentExtra === 'bw') {
-                const imgData = ctx.getImageData(0, 0, targetW, targetH);
-                const d = imgData.data;
-                for (let i = 0; i < d.length; i += 4) {
-                    let avg = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
-                    d[i] = avg; d[i+1] = avg; d[i+2] = avg;
-                }
-                ctx.putImageData(imgData, 0, 0);
+            // Watermark Text
+            if (currentMode === 'watermark') {
+                const wm = document.getElementById('inputWatermarkText').value.trim() || 'SAMPLE';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+                ctx.font = `bold ${Math.round(targetW * 0.09)}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.save();
+                ctx.translate(targetW / 2, targetH / 2);
+                ctx.rotate(-Math.PI / 6);
+                ctx.fillText(wm, 0, 0);
+                ctx.restore();
             }
 
-            // Feature: Passport Border
-            if (currentMode === 'passport' || currentExtra === 'border') {
-                ctx.strokeStyle = '#94a3b8';
-                ctx.lineWidth = 3;
+            // Passport border
+            if (currentMode === 'passport' || currentExtra === 'border' || currentExtra === 'whiteborder') {
+                ctx.strokeStyle = (currentExtra === 'whiteborder') ? '#ffffff' : '#94a3b8';
+                ctx.lineWidth = 4;
                 ctx.strokeRect(0, 0, targetW, targetH);
             }
 
             document.getElementById('labelOutDim').innerText = `${targetW} x ${targetH} px`;
-
-            // Binary Search Target KB Compression
             compressToKB(parseFloat(document.getElementById('inputKB').value));
         }
 
-        // Iterative compression towards target file size
+        // Binary Search Compression Logic
         function compressToKB(targetKB) {
             let minQ = 0.02;
             let maxQ = 0.98;
@@ -773,13 +922,26 @@
             step(0.85);
         }
 
-        // Download Action
+        // Download Generator
         function downloadCurrentResult() {
+            if (currentMode === 'pdf') {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: canvas.width > canvas.height ? 'l' : 'p',
+                    unit: 'px',
+                    format: [canvas.width, canvas.height]
+                });
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+                pdf.save(`ResizeKB_Document_${Date.now()}.pdf`);
+                return;
+            }
+
             if (!currentBlob) return;
             const ext = (currentExtra === 'png') ? 'png' : 'jpg';
             const link = document.createElement('a');
             link.href = URL.createObjectURL(currentBlob);
-            link.download = `ResizeKB_${Date.now()}.${ext}`;
+            link.download = `ResizeKB_${currentMode}_${Date.now()}.${ext}`;
             link.click();
         }
     </script>
