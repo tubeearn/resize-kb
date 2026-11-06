@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resize KB - Free Photo, Signature & Document Resizer</title>
+    <meta name="description" content="Resize photo, signature, add name/date for Sarkari online exam forms in exact KB, pixels, cm, mm with 100% privacy.">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .badge-secure {
+            background: #ecfdf5;
+            color: var(--success);
+            border: 1px solid #bbf7d0;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Quick Exam Presets */
+        .presets-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .presets-label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .preset-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #334155;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: #cbd5e1;
+        }
+
+        /* Tool Tabs Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tool-card:hover {
+            border-color: #93c5fd;
+            transform: translateY(-2px);
+        }
+
+        .tool-card.active {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .tool-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .tool-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1e293b;
+        }
+
+        .tool-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Workspace Box */
+        .workspace {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+        }
+
+        /* Dropzone */
+        .dropzone {
+            border: 2px dashed #94a3b8;
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .dropzone-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .dropzone-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #1e293b;
+        }
+
+        .dropzone-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Settings Area */
+        .settings-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .config-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Preview & Download Area */
+        .preview-section {
+            display: none;
+            margin-top: 24px;
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+        }
+
+        .preview-section.active {
+            display: block;
+        }
+
+        .preview-wrapper {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .canvas-box {
+            max-width: 320px;
+            max-height: 320px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .canvas-box canvas {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+
+        .stats-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 240px;
+        }
+
+        .stats-item {
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stats-item span:first-child {
+            color: var(--text-muted);
+        }
+
+        .stats-item span:last-child {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .btn-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--primary-hover);
+        }
+
+        /* SEO Guidance */
+        .info-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+        }
+
+        .info-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            margin-top: 12px;
+        }
+
+        .info-table th, .info-table td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .info-table th {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="brand">
+            <span>⚡ Resize KB</span>
+        </a>
+        <div class="badge-secure">
+            🛡️ 100% Client-Side Safe (No Upload to Server)
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Title -->
+        <div class="hero">
+            <h1>Sarkari & Online Form Photo Resizer</h1>
+            <p>One-stop solution for photo, signature, exact KB compression, name/date, and printable sheets.</p>
+        </div>
+
+        <!-- Exam Presets Bar -->
+        <div class="presets-bar">
+            <span class="presets-label">⚡ 1-Click Form Presets:</span>
+            <button class="preset-btn" onclick="applyPreset('ssc_photo')">SSC Photo (20-50 KB)</button>
+            <button class="preset-btn" onclick="applyPreset('ssc_sign')">SSC Sign (10-20 KB)</button>
+            <button class="preset-btn" onclick="applyPreset('upsc_photo')">UPSC Photo (20-300 KB)</button>
+            <button class="preset-btn" onclick="applyPreset('ibps')">IBPS / Bank (20-50 KB)</button>
+            <button class="preset-btn" onclick="applyPreset('passport')">Passport Standard (3.5x4.5cm)</button>
+        </div>
+
+        <!-- Multi-Tool Tabs -->
+        <div class="tools-grid">
+            <div class="tool-card active" onclick="switchTool('compress')">
+                <div class="tool-icon">📉</div>
+                <div class="tool-title">Exact KB Size</div>
+                <div class="tool-desc">Target 20KB, 50KB, 100KB</div>
+            </div>
+            <div class="tool-card" onclick="switchTool('passport')">
+                <div class="tool-icon">👤</div>
+                <div class="tool-title">Passport Photo</div>
+                <div class="tool-desc">3.5x4.5 cm with border</div>
+            </div>
+            <div class="tool-card" onclick="switchTool('namedate')">
+                <div class="tool-icon">📝</div>
+                <div class="tool-title">Name & Date (DOP)</div>
+                <div class="tool-desc">Add bottom banner stamp</div>
+            </div>
+            <div class="tool-card" onclick="switchTool('signature')">
+                <div class="tool-icon">✍️</div>
+                <div class="tool-title">Signature Clean</div>
+                <div class="tool-desc">High contrast pure white bg</div>
+            </div>
+            <div class="tool-card" onclick="switchTool('dimension')">
+                <div class="tool-icon">📐</div>
+                <div class="tool-title">DPI & Pixels</div>
+                <div class="tool-desc">200 / 300 DPI, cm, mm</div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            <!-- Dropzone -->
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" style="display: none;">
+                <div class="dropzone-icon">📁</div>
+                <div class="dropzone-text">Click or Drag & Drop Photo Here</div>
+                <div class="dropzone-sub">Supports JPG, PNG, WEBP (Instant processing in your browser)</div>
+            </div>
+
+            <!-- Dynamic Settings -->
+            <div id="settingsContainer">
+                <!-- 1. Compress Panel -->
+                <div class="settings-panel active" id="panel-compress">
+                    <div class="config-row">
+                        <div class="form-group">
+                            <label>Target File Size (KB)</label>
+                            <input type="number" id="targetKB" value="50" min="5" max="2000">
+                        </div>
+                        <div class="form-group">
+                            <label>Quick Preset Sizes</label>
+                            <select onchange="document.getElementById('targetKB').value = this.value; processImage();">
+                                <option value="20">20 KB (SSC Signature / Thumb)</option>
+                                <option value="50" selected>50 KB (Standard Sarkari Photo)</option>
+                                <option value="100">100 KB (UPSC / State PSC)</option>
+                                <option value="200">200 KB (Document / Certificate)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Passport Panel -->
+                <div class="settings-panel" id="panel-passport">
+                    <div class="config-row">
+                        <div class="form-group">
+                            <label>Dimension (Width x Height)</label>
+                            <select id="passportDimensions">
+                                <option value="3.5,4.5">Standard Indian Passport (3.5 x 4.5 cm)</option>
+                                <option value="2,2">US Visa (2 x 2 inches)</option>
+                                <option value="3.5,3.5">Square Exam Photo (3.5 x 3.5 cm)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Border Style</label>
+                            <select id="passportBorder">
+                                <option value="none">No Border</option>
+                                <option value="thin" selected>Thin Clean Border (1px)</option>
+                                <option value="thick">Thick Border (2px)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Name & Date Panel -->
+                <div class="settings-panel" id="panel-namedate">
+                    <div class="config-row">
+                        <div class="form-group">
+                            <label>Candidate Full Name</label>
+                            <input type="text" id="candidateName" placeholder="e.g. RAHUL SHARMA">
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Photo (DOP)</label>
+                            <input type="date" id="photoDate">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Signature Panel -->
+                <div class="settings-panel" id="panel-signature">
+                    <div class="config-row">
+                        <div class="form-group">
+                            <label>Background Clean Level</label>
+                            <select id="signContrast">
+                                <option value="1.2">Normal Clean</option>
+                                <option value="1.5" selected>High Contrast (Pure White Paper)</option>
+                                <option value="2.0">Extreme (Dark Ink / Pen)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Target KB for Signature</label>
+                            <input type="number" id="signTargetKB" value="20" min="5" max="100">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Dimension Panel -->
+                <div class="settings-panel" id="panel-dimension">
+                    <div class="config-row">
+                        <div class="form-group">
+                            <label>Width (Pixels)</label>
+                            <input type="number" id="customWidth" placeholder="e.g. 350">
+                        </div>
+                        <div class="form-group">
+                            <label>Height (Pixels)</label>
+                            <input type="number" id="customHeight" placeholder="e.g. 450">
+                        </div>
+                        <div class="form-group">
+                            <label>DPI Resolution</label>
+                            <select id="dpiSelect">
+                                <option value="200" selected>200 DPI (Exam Standard)</option>
+                                <option value="300">300 DPI (High Quality Print)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview & Action Box -->
+            <div class="preview-section" id="previewSection">
+                <div class="preview-wrapper">
+                    <div class="canvas-box">
+                        <canvas id="mainCanvas"></canvas>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-item">
+                            <span>Original Size:</span>
+                            <span id="origSizeLabel">0 KB</span>
+                        </div>
+                        <div class="stats-item">
+                            <span>Resized Output:</span>
+                            <span id="outputSizeLabel" style="color: var(--primary);">0 KB</span>
+                        </div>
+                        <div class="stats-item">
+                            <span>Dimensions:</span>
+                            <span id="outputDimLabel">0 x 0 px</span>
+                        </div>
+                        <button class="btn-action" onclick="downloadResult()">📥 Download Image</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sarkari Exam Requirements Reference -->
+        <div class="info-section">
+            <h3>📋 Standard Guidelines for Indian Online Exams</h3>
+            <table class="info-table">
+                <thead>
+                    <tr>
+                        <th>Exam / Portal</th>
+                        <th>Photo Specs</th>
+                        <th>Signature Specs</th>
+                        <th>Special Rules</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SSC (CGL, CHSL, GD)</strong></td>
+                        <td>20 KB - 50 KB (3.5 x 4.5 cm)</td>
+                        <td>10 KB - 20 KB (4.0 x 2.0 cm)</td>
+                        <td>Live photo or clean white background, no cap/specs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UPSC Civil Services</strong></td>
+                        <td>20 KB - 300 KB</td>
+                        <td>20 KB - 300 KB</td>
+                        <td>Photo not older than 10 days with Name & Date</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IBPS / Banking</strong></td>
+                        <td>20 KB - 50 KB (200 x 230 px)</td>
+                        <td>10 KB - 20 KB (140 x 60 px)</td>
+                        <td>Black ink pen on white paper only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Railway (RRB)</strong></td>
+                        <td>20 KB - 50 KB</td>
+                        <td>10 KB - 20 KB</td>
+                        <td>Clear face, 80% face coverage</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let rawImage = null;
+        let activeTool = 'compress';
+
+        const fileInput = document.getElementById('fileInput');
+        const dropzone = document.getElementById('dropzone');
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const previewSection = document.getElementById('previewSection');
+
+        // File Upload Handlers
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                loadFile(e.target.files[0]);
+            }
+        });
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                loadFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function loadFile(file) {
+            document.getElementById('origSizeLabel').innerText = (file.size / 1024).toFixed(1) + ' KB';
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    rawImage = img;
+                    previewSection.classList.add('active');
+                    processImage();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Switch Tools
+        function switchTool(toolKey) {
+            activeTool = toolKey;
+            document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(`panel-${toolKey}`).classList.add('active');
+
+            if (rawImage) processImage();
+        }
+
+        // Exam 1-Click Presets
+        function applyPreset(preset) {
+            if (preset === 'ssc_photo') {
+                switchTool('compress');
+                document.getElementById('targetKB').value = 45;
+            } else if (preset === 'ssc_sign') {
+                switchTool('signature');
+                document.getElementById('signTargetKB').value = 18;
+            } else if (preset === 'upsc_photo') {
+                switchTool('namedate');
+            } else if (preset === 'ibps') {
+                switchTool('compress');
+                document.getElementById('targetKB').value = 40;
+            } else if (preset === 'passport') {
+                switchTool('passport');
+            }
+            if (rawImage) processImage();
+        }
+
+        // Main Image Processing Logic (100% Client-Side)
+        function processImage() {
+            if (!rawImage) return;
+
+            let targetW = rawImage.naturalWidth;
+            let targetH = rawImage.naturalHeight;
+
+            // Mode 1: Passport Dimension Setup
+            if (activeTool === 'passport') {
+                targetW = 413; // 3.5cm at 300DPI approx
+                targetH = 531; // 4.5cm at 300DPI approx
+            }
+
+            // Mode 2: Custom Dimension
+            if (activeTool === 'dimension') {
+                const cw = parseInt(document.getElementById('customWidth').value);
+                const ch = parseInt(document.getElementById('customHeight').value);
+                if (cw > 0) targetW = cw;
+                if (ch > 0) targetH = ch;
+            }
+
+            canvas.width = targetW;
+            canvas.height = targetH;
+            ctx.clearRect(0, 0, targetW, targetH);
+
+            // Draw base image
+            ctx.drawImage(rawImage, 0, 0, targetW, targetH);
+
+            // Mode 3: Signature Filter (High Contrast & Pure White BG)
+            if (activeTool === 'signature') {
+                const imgData = ctx.getImageData(0, 0, targetW, targetH);
+                const data = imgData.data;
+                const contrast = parseFloat(document.getElementById('signContrast').value);
+                for (let i = 0; i < data.length; i += 4) {
+                    let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                    // White thresholding
+                    if (avg > 185) {
+                        data[i] = 255;
+                        data[i+1] = 255;
+                        data[i+2] = 255;
+                    } else {
+                        let val = ((avg / 255 - 0.5) * contrast + 0.5) * 255;
+                        val = Math.max(0, Math.min(255, val));
+                        data[i] = val;
+                        data[i+1] = val;
+                        data[i+2] = val;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            // Mode 4: Name and Date Stamp
+            if (activeTool === 'namedate') {
+                const name = document.getElementById('candidateName').value.trim();
+                const dateVal = document.getElementById('photoDate').value;
+
+                if (name || dateVal) {
+                    const bannerHeight = Math.round(targetH * 0.16);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, targetH - bannerHeight, targetW, bannerHeight);
+
+                    ctx.fillStyle = '#000000';
+                    ctx.textAlign = 'center';
+                    const fontSize = Math.max(12, Math.round(targetW * 0.048));
+                    ctx.font = `bold ${fontSize}px sans-serif`;
+
+                    if (name && dateVal) {
+                        ctx.fillText(name.toUpperCase(), targetW / 2, targetH - (bannerHeight / 2) - 4);
+                        ctx.font = `${Math.round(fontSize * 0.85)}px sans-serif`;
+                        ctx.fillText(`DOP: ${dateVal}`, targetW / 2, targetH - 8);
+                    } else if (name) {
+                        ctx.fillText(name.toUpperCase(), targetW / 2, targetH - (bannerHeight / 2) + 6);
+                    } else if (dateVal) {
+                        ctx.fillText(`DOP: ${dateVal}`, targetW / 2, targetH - (bannerHeight / 2) + 6);
+                    }
+                }
+            }
+
+            // Passport border
+            if (activeTool === 'passport') {
+                const border = document.getElementById('passportBorder').value;
+                if (border === 'thin') {
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 4;
+                    ctx.strokeRect(0, 0, targetW, targetH);
+                } else if (border === 'thick') {
+                    ctx.strokeStyle = '#64748b';
+                    ctx.lineWidth = 8;
+                    ctx.strokeRect(0, 0, targetW, targetH);
+                }
+            }
+
+            // Update Dimension Label
+            document.getElementById('outputDimLabel').innerText = `${targetW} x ${targetH} px`;
+
+            // Calculate Target KB and Output Size
+            calculateCompressedBlob();
+        }
+
+        // Binary Search Compression for Exact Target KB
+        function calculateCompressedBlob() {
+            let targetKB = parseFloat(document.getElementById('targetKB').value);
+            if (activeTool === 'signature') {
+                targetKB = parseFloat(document.getElementById('signTargetKB').value);
+            }
+
+            let minQuality = 0.05;
+            let maxQuality = 0.98;
+            let bestBlob = null;
+            let iterations = 0;
+
+            function testCompression(q) {
+                canvas.toBlob((blob) => {
+                    const currentKB = blob.size / 1024;
+                    bestBlob = blob;
+
+                    if (iterations < 6) {
+                        iterations++;
+                        if (currentKB > targetKB) {
+                            maxQuality = q;
+                            testCompression((minQuality + maxQuality) / 2);
+                        } else if (currentKB < targetKB * 0.9) {
+                            minQuality = q;
+                            testCompression((minQuality + maxQuality) / 2);
+                        } else {
+                            renderOutput(bestBlob);
+                        }
+                    } else {
+                        renderOutput(bestBlob);
+                    }
+                }, 'image/jpeg', q);
+            }
+
+            testCompression(0.85);
+        }
+
+        let currentDownloadBlob = null;
+        function renderOutput(blob) {
+            currentDownloadBlob = blob;
+            document.getElementById('outputSizeLabel').innerText = (blob.size / 1024).toFixed(1) + ' KB';
+        }
+
+        function downloadResult() {
+            if (!currentDownloadBlob) return;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(currentDownloadBlob);
+            link.download = `ResizeKB_${activeTool}_${Date.now()}.jpg`;
+            link.click();
+        }
+
+        // Listen for live input updates
+        document.getElementById('candidateName').addEventListener('input', processImage);
+        document.getElementById('photoDate').addEventListener('change', processImage);
+        document.getElementById('targetKB').addEventListener('input', processImage);
+        document.getElementById('signContrast').addEventListener('change', processImage);
+        document.getElementById('passportBorder').addEventListener('change', processImage);
+    </script>
+</body>
+</html>
